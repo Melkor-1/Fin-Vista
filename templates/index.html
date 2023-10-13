@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Shares</th>
+                <th>Price</th>
+                <th>TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in stocks %}
+                {% if stock["shares"] > 0 %}
+                    <tr>
+                        <td>{{ stock["symbol"] }}</td>
+                        <td>{{ stock["shares"] }}</td>
+                        <td>{{ stock["price"] | usd }}</td>
+                        <td>{{ stock["total"] | usd }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Cash Balance</h2>
+    <p>{{ cash | usd }}</p>
+
+    <h2>Grand Total</h2>
+    <p>Your grand total: {{ grand_total | usd }}</p>
+{% endblock %}
