@@ -80,9 +80,7 @@ def lookup(symbol: str) -> dict:
         response.raise_for_status()
 
         # CSV header: Date,Open,High,Low,Close,Adj Close,Volume
-        quotes = list(
-            csv.DictReader(response.content.decode("utf-8").splitlines())
-        )
+        quotes = list(csv.DictReader(response.content.decode("utf-8").splitlines()))
         quotes.reverse()
         price = round(float(quotes[0]["Adj Close"]), 2)
         return {"name": symbol, "price": price, "symbol": symbol}
@@ -108,7 +106,8 @@ def is_strong_password(password: str) -> str:
     """
 
     criteria = [
-        (len(password) >= 8, "Password must be at least 8 characters long."), 
+        (len(password) <= 8, "Password must be at least 8 characters long."),
+        (len(password) > 64, "Password must be at most 64 characters long."),
         (re.search(r"\d", password), "Password must contain at least one digit."),
         (re.search(r"[A-Z]", password), "Password must contain at least one uppercase letter."),
         (re.search(r"[a-z]", password), "Password must contain at least one lowercase letter."),
@@ -122,3 +121,14 @@ def is_strong_password(password: str) -> str:
     return "Success."
 
 
+class FractionalSharesError(Exception):
+    pass
+
+
+def need_whole_number(value):
+    try:
+        value = int(value)
+    except ValueError:
+        raise FractionalSharesError 
+
+    return value
