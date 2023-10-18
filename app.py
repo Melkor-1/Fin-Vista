@@ -2,6 +2,8 @@ import datetime
 
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from flask_session import Session
@@ -10,6 +12,13 @@ from helpers import (apology, is_strong_password, login_required, lookup,
 
 # Configure application
 app = Flask(__name__)
+limiter = Limiter(
+        get_remote_address,
+        app=app,
+        default_limits=["200 per day", "50 per hour"],
+        storage_uri="memory://",
+)
+
 
 # Custom filter
 app.jinja_env.filters["usd"] = usd
@@ -33,6 +42,11 @@ def configure_app(app):
     # Configure CS50 Library to use SQLite database
     global db
     db = SQL("sqlite:///finance.db")
+
+
+@app.errorhandler(429)
+def ratelimit_handler(e):
+    return apology("Rate limit exceeded.", 429)
 
 
 @app.after_request
@@ -142,6 +156,7 @@ def history():
 
 
 @app.route("/login", methods=["GET", "POST"])
+@limiter.limit("100/day;10/hour", override_defaults=True)
 def login():
     """Log user in."""
 
@@ -216,6 +231,7 @@ def quote():
 
 
 @app.route("/register", methods=["GET", "POST"])
+@limiter.limit("50/day;5/hour", override_defaults=True)
 def register():
     """Register user."""
     if request.method == "GET":
