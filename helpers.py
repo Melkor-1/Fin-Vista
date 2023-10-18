@@ -106,7 +106,7 @@ def is_strong_password(password: str) -> str:
     """
 
     criteria = [
-        (len(password) <= 8, "Password must be at least 8 characters long."),
+        (len(password) < 8, "Password must be at least 8 characters long."), 
         (len(password) > 64, "Password must be at most 64 characters long."),
         (re.search(r"\d", password), "Password must contain at least one digit."),
         (re.search(r"[A-Z]", password), "Password must contain at least one uppercase letter."),
