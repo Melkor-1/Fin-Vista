@@ -1,5 +1,7 @@
 #   Fin-Vista - A Portfolio Management Web App
 
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://https://github.com/Melkor-1/Fin-Vista/edit/main/LICENSE)
+
 Fin-Vista is a simple web application for managing stock portfolios, checking 
 real-time stock prices, buying and selling stocks, and viewing transaction 
 history. It's built using Flask and SQlite for database management.
@@ -9,8 +11,6 @@ history. It's built using Flask and SQlite for database management.
 *   [Installation](#installation)
 *   [Usage](#usage)
 *   [Database Schema](#database-schema)
-*   [License](#license)
-
 ##  Installation: 
 
 1.  Clone the repository:
@@ -74,9 +74,3 @@ history. It's built using Flask and SQlite for database management.
 
 	This schema is used to store user information and transaction history for
 	the Fin-Vista application.
-
-##  License
-    This project is licensed under the MIT license - see the LICENSE file for
-    details.
-
-
